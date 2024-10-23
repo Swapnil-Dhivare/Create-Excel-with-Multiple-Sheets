@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Sheet Excel Generator</title>
+    <style>
+        .sheet-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .sheet-header {
+            font-weight: bold;
+        }
+        .remove-sheet {
+            color: red;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Create Excel with Multiple Sheets</h1>
+    <form id="sheetForm" method="POST" action="/generate" enctype="multipart/form-data">
+        <div id="sheets">
+            <!-- Sheets will be dynamically added here -->
+        </div>
+        <button type="button" id="addSheetBtn">Add New Sheet</button><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let sheetCount = 0;
+
+        function addNewSheet() {
+            sheetCount++;
+            const sheetHtml = `
+                <div class="sheet-container" id="sheet-${sheetCount}">
+                    <div class="sheet-header">Sheet ${sheetCount}
+                        <span class="remove-sheet" onclick="removeSheet(${sheetCount})">[Remove]</span>
+                    </div>
+                    <label for="sheet_title_${sheetCount}">Sheet Title:</label>
+                    <input type="text" name="sheet_title_${sheetCount}" placeholder="Enter sheet title" required><br><br>
+                    
+                    <label for="columns_${sheetCount}">Columns (comma-separated):</label>
+                    <input type="text" name="columns_${sheetCount}" placeholder="Enter columns" required><br><br>
+                    
+                    <label for="data_${sheetCount}">Data (comma-separated rows):</label>
+                    <textarea name="data_${sheetCount}" placeholder="Enter data rows (e.g. Row1, Row2)" required></textarea><br><br>
+                </div>
+            `;
+            $('#sheets').append(sheetHtml);
+        }
+
+        function removeSheet(sheetId) {
+            $(`#sheet-${sheetId}`).remove();
+        }
+
+        // Event listener to add a new sheet dynamically
+        $('#addSheetBtn').on('click', function () {
+            addNewSheet();
+        });
+
+        // Initialize with one sheet
+        $(document).ready(function() {
+            addNewSheet();
+        });
+    </script>
+</body>
+</html>

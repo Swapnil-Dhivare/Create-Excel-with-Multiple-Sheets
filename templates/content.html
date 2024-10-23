@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course File Automation - Data</title>
+</head>
+<body>
+    <h1>Course File Automation</h1>
+    <form action="/content" method="POST">
+        {% for col in cols %}
+            <label for="col1_row">For {{ col }} and row:</label>
+            <input type="text" id="{{ col }}_row" name="col{{ loop.index }}_row" placeholder="Enter data for {{ col }}" required>
+            <br>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
